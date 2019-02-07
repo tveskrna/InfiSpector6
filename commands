@@ -1,0 +1,58 @@
+bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
+./bin/kafka-server-start.sh config/server.properties
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic wikipedia
+curl -XPOST -H'Content-Type: application/json' -d @quickstart/tutorial/wikipedia-kafka-supervisor.json http://localhost:8090/druid/indexer/v1/supervisor
+export KAFKA_OPTS="-Dfile.encoding=UTF-8"
+./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic wikipedia < ~/projects/tveskrna/dipp/apache-druid-0.13.0-incubating/quickstart/tutorial/wikiticker-2015-09-12-sampled.json
+curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/tutorial/wikipedia-top-pages.json http://localhost:8082/druid/v2?pretty
+
+
+
+rm -rf /tmp/kafka-logs
+rm -rf var
+
+file -i 							//zjisti kodovani ascii
+
+bin/kafka-topics.sh --list --zookeeper localhost:2181		//topiky kafky
+
+http://localhost:8081/status					//nejake info
+http://localhost:8090/druid/indexer/v1/supervisor      		//topic
+http://localhost:8081/druid/coordinator/v1/datasources		//datasourcy
+...
+http://druid.io/docs/latest/operations/api-reference.html	//dalsi api
+
+http://druid.io/docs/latest/development/extensions-core/kafka-ingestion.html 	//nastaveni pro druidi spec pro kafku
+http://druid.io/docs/latest/ingestion/ingestion-spec.html			//spec obecne
+
+
+//******************************************************************
+Soubory na prozkoumani:
+
+quickstart/tutorial/conf/tutorial-cluster.conf  	//configurak pro druida
+config/server.properties				//configurak pro kafku
+quickstart/tutorial/wikipedia-kafka-supervisor.json	//configurak pro indexins sluzbu
+quickstart/tutorial/wikipedia-top-pages.json		//query json
+
+//******************************************************************
+Jak to bude asi vypadat:
+
+bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
+
+./bin/kafka-server-start.sh config/server.properties
+
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic infispector-kafka
+
+curl -XPOST -H'Content-Type: application/json' -d @quickstart/tutorial/infispector-kafka-supervisor.json http://localhost:8090/druid/indexer/v1/supervisor
+
+export KAFKA_OPTS="-Dfile.encoding=UTF-8"
+
+./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic infispector-kafka < ~/projects/tveskrna/dipp/apache-druid-0.13.0-incubating/quickstart/tutorial/infinispan-example.json
+
+curl -X 'POST' -H 'Content-Type:application/json' -d @quickstart/tutorial/infispector-query.json http://localhost:8082/druid/v2?pretty
+
+
+Kafka:
+pohrat si s replication factorem 2 az 3 na zkousku.
+To stejne s partitions - na netu  meli 20
+
+druid spec zkontrolovan, zkusit kafku nebo zdroj dat

@@ -1,0 +1,54 @@
+{
+  "type": "kafka",
+  "dataSchema": {
+    "dataSource": "infispector-datasource",
+    "parser": {
+      "type": "string",
+      "parseSpec": {
+        "format": "json",
+        "timestampSpec": {
+          "column" : "timestamp",
+          "format" : "millis"
+        },
+        "dimensionsSpec" : {
+            "dimensions": [
+		"direction",
+		"src",
+		"dest",
+		"message"
+	    ]
+          }
+        }
+      },
+    "metricsSpec" : [{
+      "type" : "count",
+      "name" : "count"
+    }, {
+      "type" : "doubleSum",
+      "name" : "length",
+      "fieldName" : "length"
+    }, {
+      "type" : "doubleSum",
+      "name" : "timestamp",
+      "fieldName" : "timestamp"
+    }],
+    "granularitySpec": {
+      "type": "uniform",
+      "segmentGranularity": "DAY",
+      "queryGranularity": "NONE"
+    }
+  },
+  "tuningConfig": {
+    "type": "kafka",
+    "maxRowsInMemory": 500000
+  },
+  "ioConfig": {
+    "topic": "infispector-kafka",
+    "taskCount": 1,
+    "replicas": 1,
+    "taskDuration": "PT1H",
+    "consumerProperties": {
+      "bootstrap.servers": "localhost:9092"
+    }
+  }
+}
