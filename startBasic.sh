@@ -54,11 +54,11 @@ if [ $? -ne 0 ]
 		exit 1
 fi
 
-sleep 30
+sleep 35
 
 printf "\nSending testing data to Kafka ...\n"
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic infispector-kafka < "$FILES_LOCATION/infinispan-example.json" &
-sleep 15
+sleep 25
 
 printf "\nResult of query: \n"
 curl -XPOST -H'Content-Type: application/json' -d "@$FILES_LOCATION/infispector-query.json" "http://localhost:8082/druid/v2?pretty"
