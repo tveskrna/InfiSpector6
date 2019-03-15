@@ -16,9 +16,6 @@ http://druid.io/docs/latest/ingestion/ingestion-spec.html			//spec obecne
 
 
 //******************************************************************
-Poznamky pro priste:
-Pohrat si s plywoodem, rozjet query do prohlizece.
-Plywood ted haze error. Required???
 
 //******************************************************************
 
@@ -47,14 +44,3 @@ java \
   org.apache.druid.cli.Main tools pull-deps \
   --no-default-hadoop \
   -c "net.acesinc.druid.extensions:cors-servlet-filter:1.0.0"
-
-
-    "stream": "0.0.2",
-    "crypto": "^1.0.1",
-    "http": "0.0.0",
-    "https": "^1.0.0",
-    "net": "^1.0.2",
-    "node-libs-browser": "^2.2.0",
-    "path": "^0.12.7",
-    "tls": "0.0.1",
-    "zlib": "^1.0.5",
