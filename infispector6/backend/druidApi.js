@@ -16,7 +16,14 @@ const druidRequester = druidRequesterFactory({
 * Druid requests
 */
 
+/**
+ * Function asks druid instance for the list of communication nodes
+ * and internally parses the result in order to return clear list of nodes.
+ *
+ * Request body: null
+ */
 exports.getNodes = function (request, response) {
+  debug('getNodes function from druidApi.js was called.');
   let druidQueryJson = createGeneralTopNDruidQuery("dest", "length");
 
   setAggregationsToDruidQueryBase(druidQueryJson, "count", "length", "length");
@@ -37,64 +44,69 @@ exports.getNodes = function (request, response) {
 
 };
 
+/**
+ * Function that returns final count of messages from src node
+ * to dest node in a given time interval with respective filter
+ *
+ * Possible Infinispan related filters (for more charts on dashboard) --
+ * [SingleRpcCommand, CacheTopologyControlCommand, StateResponseCommand, StateRequestCommand]
+ *
+ * Request body: srcNode, destNode, searchMessageText, groupSrc, groupDest
+ */
 exports.getMessagesCount = function (request, response) {
   debug('getMessagesCount function from druidApi.js was called.');
   let srcNode = request.body.srcNode;
-  srcNode = JSON.parse(srcNode);
+  // srcNode = JSON.parse(srcNode);
 
   let destNode = request.body.destNode;
-  destNode = JSON.parse(destNode);
+  // destNode = JSON.parse(destNode);
 
   let searchMessageText = request.body.searchMessageText;
   let groupSrc = request.body.groupSrc;
   let groupDest = request.body.groupDest;
 
   if (srcNode === "null") {
-    groupSrc = JSON.stringify("null");
-    srcNode = JSON.parse(srcNode);
+    groupSrc = "null"; //JSON.stringify("null");
+    // srcNode = JSON.parse(srcNode);
   }
 
   if (destNode === "null") {
-    groupDest = JSON.stringify("null");
-    destNode = JSON.parse(destNode);
+    groupDest = "null"; //JSON.stringify("null");
+    // destNode = JSON.parse(destNode);
   }
 
-  getMessagesCountIntern(srcNode, destNode, searchMessageText, "", "", groupSrc, groupDest).then(function (result) {
-    response.status(200).send({error: 0, result: JSON.stringify(result), searchMessageText: JSON.stringify(searchMessageText)});
+  let druidQueryJson = createGeneralTopNDruidQuery("src", "length");
+  setFilterToDruidQueryBase(druidQueryJson, "and", srcNode, destNode, searchMessageText);
+  setAggregationsToDruidQueryBase(druidQueryJson, "count", "length", "length");
+  setIntervalsToDruidQueryBase(druidQueryJson);
+  druidQueryJson = finishQuery(druidQueryJson);
+
+  myDruidRequester(druidQueryJson).then(function (result) {
+    let res = JSON.stringify(result);
+    let reg = /(?:"length":)[0-9]+/g;
+    srcNode = groupSrc;
+    destNode = groupDest;
+    let messagesCount = res.match(reg);
+    if (messagesCount === null) {
+      // resolve with 0 messages count for now
+      // TODO -- look here at proper handling
+      messagesCount = 0;
+    } else {
+      messagesCount = messagesCount[0].replace('"length":', "");
+      if (searchMessageText === "CacheTopologyControlCommand") {
+        console.log("in getMessagesCountIntern extracted messagesCount from: " + res + " = " + messagesCount);
+      }
+    }
+    debug("Result of getMessagesCount function (druidApi): " + JSON.stringify(result));
+    response.status(200).send({error: 0, result: messagesCount, searchMessageText: searchMessageText});
   });
 };
 
-function getMessagesCountIntern (srcNode, destNode, searchMessageText, fromTime, toTime, group1, group2) {
-  return new Promise(function (resolve, reject) {
-
-    let druidQueryJson = createGeneralTopNDruidQuery("src", "length");
-    setFilterToDruidQueryBase(druidQueryJson, "and", srcNode, destNode, searchMessageText);
-    setAggregationsToDruidQueryBase(druidQueryJson, "count", "length", "length");
-    setIntervalsToDruidQueryBase(druidQueryJson, fromTime, toTime);
-    druidQueryJson = finishQuery(druidQueryJson);
-
-    myDruidRequester(druidQueryJson).then(function (result) {
-      let res = JSON.stringify(result);
-      let reg = /(?:"length":)[0-9]+/g;
-      srcNode = JSON.parse(group1);
-      destNode = JSON.parse(group2);
-      let messagesCount = res.match(reg);
-      if (messagesCount === null) {
-        // resolve with 0 messages count for now
-        // TODO -- look here at proper handling
-        resolve([srcNode, destNode, 0]);
-      } else {
-        messagesCount = messagesCount[0].replace('"length":', "");
-        if (searchMessageText === "CacheTopologyControlCommand") {
-          console.log("in getMessagesCountIntern extracted messagesCount from: "
-            + res + " = " + messagesCount);
-        }
-        resolve([srcNode, destNode, messagesCount]);
-      }
-    }).done();
-  });
-}
-
+/**
+ * Function that returns total count of messages in Druid
+ *
+ * Request body: [fromTime], [toTime]
+ */
 exports.getMsgCnt = function(request, response) {
   debug('getMsgCnt function from druidApi.js was called.');
 
@@ -104,12 +116,17 @@ exports.getMsgCnt = function(request, response) {
   druidQueryJson = finishQuery(druidQueryJson);
 
   myDruidRequester(druidQueryJson).then(function (result) {
-    let messagesCount = result[0].result.messagesCount;
-    debug(messagesCount);
-    response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(messagesCount)});
-  }).done();
+    let messagesCount = result[0].messagesCount;
+    debug("Result of function getMsgCnt (druidApi): " + JSON.stringify(messagesCount));
+    response.status(200).send({error: 0, jsonResponseAsString: messagesCount});
+  });
 };
 
+/**
+ * Function that returns messages and timestamp from given src node
+ *
+ * Request body: srcNode, destNode, filter
+ */
 exports.getMessagesInfo = function (request, response) {
 
   debug('getMessagesInfo function from druidApi.js was called.' + request.body.nodeName);
@@ -125,39 +142,49 @@ exports.getMessagesInfo = function (request, response) {
   druidQueryJson = finishQuery(druidQueryJson);
 
   myDruidRequester(druidQueryJson).then(function (result) {
-    debug("Message info: " + JSON.stringify(result));
+    debug("Result of getMessagesInfo (druidApi): " + JSON.stringify(result));
     response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(result)});
-  }).done();
+  });
 };
 
+/**
+ * Returns the time of the first message in monitored communication
+ *
+ * Request body: null
+ */
 exports.getMinimumMessageTime = function (request, response) {
 
   debug('getMinimumMessageTime function in druidApi.js was called. ');
 
-  let druidQueryJson = createTimeseriesDruidQuery(null, true);
-  setAggregationsToDruidQueryBase(druidQueryJson, "doubleMin", "timestamp", "__time");
+  let druidQueryJson = createTimeseriesDruidQuery(null, false);
+  setAggregationsToDruidQueryBase(druidQueryJson, "doubleFirst", "timestamp", "__time");
   setIntervalsToDruidQueryBase(druidQueryJson); //"2009-10-01T00:00/2020-01-01T00"
   druidQueryJson = finishQuery(druidQueryJson);
 
   myDruidRequester(druidQueryJson).then(function (result) {
-    debug("Result: Minimum " + JSON.stringify(result));
+    debug("Result of getMinimumMessageTime: " + JSON.stringify(result));
     response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(result)});
-  }).done();
+  });
 };
 
+/**
+ * Returns the time of the last message in monitored communication
+ *
+ * Request body: null
+ */
 exports.getMaximumMessageTime = function (request, response) {
 
   debug('getMaximumMessageTime function in druidApi.js was called. ');
 
   let druidQueryJson = createTimeseriesDruidQuery(null, true);
-  setAggregationsToDruidQueryBase(druidQueryJson, "doubleMax", "timestamp", "__time");
+  setAggregationsToDruidQueryBase(druidQueryJson, "doubleLast", "timestamp", "__time");
   setIntervalsToDruidQueryBase(druidQueryJson); //"2009-10-01T00:00/2020-01-01T00"
   druidQueryJson = finishQuery(druidQueryJson);
 
   myDruidRequester(druidQueryJson).then(function (result) {
-    debug("Result: Maximum " + JSON.stringify(result));
+    debug("Result of getMaximumMessageTime: " + JSON.stringify(result));
     response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(result)});
-  }).done();
+  });
 };
 
 /*
