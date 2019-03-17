@@ -1,0 +1,9 @@
+{
+	"queryType": "timeseries",
+	"dataSource": "infispector-datasource",
+	"granularity": "all",
+	"descending": "true",
+	"threshold": 100000,
+	"intervals": ["2000-10-01T00:00/2050-01-01T00"],
+	"aggregations": [{"type": "doubleLast", "fieldName": "timestamp", "name": "__time"}]
+}

@@ -1,0 +1,30 @@
+{
+	"queryType": "topN",
+	"dataSource": "infispector-datasource",
+	"granularity": "all",
+	"dimension": "src",
+	"metric": "length",
+	"threshold": 100000,
+	"aggregations": [{"type": "count", "name": "count"}],
+	"intervals": ["2000-10-01T00:00/2050-01-01T00"],
+	"aggregations": [{"type": "count", "fieldName": "length", "name": "length"}],
+	"filter": {
+		"type": "and",
+		"fields": [{
+			"type": "selector",
+			"dimension": "src",
+			"value": "tsykora-51778"
+		},{
+			"type": "selector",
+			"dimension": "dest",
+			"value": "tsykora-41524"
+		},{
+			"type": "search",
+			"dimension": "message",
+			"query": {
+				"type": "insensitive_contains",
+				"value": "CacheTopologyControlCommand"
+			}
+		}]
+	}
+}
