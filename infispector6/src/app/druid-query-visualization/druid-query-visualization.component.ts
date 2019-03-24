@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {DruidLibraryService} from '../shared/tools/druid-library/druid-library.service';
 
 @Component({
   selector: 'druid-query-visualization',
@@ -7,6 +8,6 @@ import {Component} from '@angular/core';
 })
 
 export class DruidQueryVisualizationComponent {
-  constructor() {}
+  constructor(private druidLibrary:DruidLibraryService) {}
 }
 
