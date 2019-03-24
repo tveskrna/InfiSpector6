@@ -98,7 +98,8 @@ exports.getMessagesCount = function (request, response) {
       }
     }
     debug("Result of getMessagesCount function (druidApi): " + JSON.stringify(result));
-    response.status(200).send({error: 0, result: messagesCount, searchMessageText: searchMessageText});
+    let jsonResponseAsString = { result: messagesCount, searchMessageText: searchMessageText};
+    response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(jsonResponseAsString)});
   });
 };
 
@@ -157,7 +158,7 @@ exports.getMinimumMessageTime = function (request, response) {
   debug('getMinimumMessageTime function in druidApi.js was called. ');
 
   let druidQueryJson = createTimeseriesDruidQuery(null, false);
-  setAggregationsToDruidQueryBase(druidQueryJson, "doubleFirst", "timestamp", "__time");
+  setAggregationsToDruidQueryBase(druidQueryJson, "doubleFirst", "timestamp", "timeMillis");
   setIntervalsToDruidQueryBase(druidQueryJson); //"2009-10-01T00:00/2020-01-01T00"
   druidQueryJson = finishQuery(druidQueryJson);
 
@@ -177,7 +178,7 @@ exports.getMaximumMessageTime = function (request, response) {
   debug('getMaximumMessageTime function in druidApi.js was called. ');
 
   let druidQueryJson = createTimeseriesDruidQuery(null, true);
-  setAggregationsToDruidQueryBase(druidQueryJson, "doubleLast", "timestamp", "__time");
+  setAggregationsToDruidQueryBase(druidQueryJson, "doubleLast", "timestamp", "timeMillis");
   setIntervalsToDruidQueryBase(druidQueryJson); //"2009-10-01T00:00/2020-01-01T00"
   druidQueryJson = finishQuery(druidQueryJson);
 

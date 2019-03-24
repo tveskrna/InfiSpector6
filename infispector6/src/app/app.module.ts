@@ -10,6 +10,9 @@ import {MainLayoutModule} from './shared/layouts/main-layout/main-layout.module'
 import {DruidQueryVisualizationModule} from './druid-query-visualization/druid-query-visualization.module';
 import {NavigationModule} from './shared/layouts/navigation/navigation.module';
 import {HomeModule} from './home/home.module';
+import {APP_ENVIRONMENT} from './environment';
+import {DruidLibraryModule} from './shared/tools/druid-library/druid-library.module';
+import {DruidLibraryService} from './shared/tools/druid-library/druid-library.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,7 @@ import {HomeModule} from './home/home.module';
     DruidQueryVisualizationModule
   ],
   exports: [],
-  providers: [],
+  providers: [APP_ENVIRONMENT, DruidLibraryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
