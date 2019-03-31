@@ -1,0 +1,20 @@
+<div id="message-flow-btns">
+  <fieldset>
+    <label>Number of nodes in a group: </label>
+    <input id="nodesInGroup" type="text" [(ngModel)]="nodesInGroup"/>
+
+    <label *ngIf="!hidden">Additional filters: </label>
+    <input id="inputFilter" *ngIf="!hidden" type="text" placeholder="new filters" [(ngModel)]="inputFilters"/>
+
+    <button class="drawButton" (click)="drawGraph(false)" >Draw</button>
+  </fieldset>
+</div>
+
+<div id="graphs"></div>
+<div id="legendContainer" *ngIf="!legendHidden">
+  <div class="borderedContainer">
+    <pre>
+      {{groupLegend}}
+    </pre>
+  </div>
+</div>

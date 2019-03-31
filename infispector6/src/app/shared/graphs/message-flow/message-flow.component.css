@@ -1,0 +1,13 @@
+#message-flow-btns {
+  margin: 0 80px;
+}
+
+input {
+  margin: 0 10px;
+}
+
+fieldset {
+  border: 1px solid darkgray;
+  background-color: #eeeeee;
+  display: inline-block;
+}
