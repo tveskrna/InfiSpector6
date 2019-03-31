@@ -1,3 +1,16 @@
 #home {
   text-align:center
 }
+
+#home-header {
+  margin-right: 510px;
+}
+
+#virtual-space {
+  display:inline-block;
+  width: 270px;
+}
+
+textarea {
+  margin: 0 5px;
+}

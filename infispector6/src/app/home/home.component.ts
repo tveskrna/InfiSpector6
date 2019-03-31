@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {DruidLibraryService} from '../shared/tools/druid-library/druid-library.service';
 
 @Component({
   selector: 'home',
@@ -9,11 +10,22 @@ import {HttpClient} from '@angular/common/http';
 
 export class HomeComponent implements OnInit{
 
-  public response:string;
+  private query:string;
+  private response:string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private druidLibrary:DruidLibraryService) {}
 
   ngOnInit() {
+    this.query = '{\n' +
+      '  "queryType": "topN",\n' +
+      '  "dataSource": "infispector-datasource",\n' +
+      '  "granularity": "all",\n' +
+      '  "dimension": "dest",\n' +
+      '  "metric": "count",\n' +
+      '  "threshold": 100000,\n' +
+      '  "aggregations": [{"type": "count", "name": "count"}],\n' +
+      '  "intervals": ["2009-10-01T00:00/2020-01-01T00"]\n}';
+
     this.response = "\n" +
       "\t    Infinispan messages history,\n" +
       "\t      is never more a mystery.\n" +
@@ -25,8 +37,9 @@ export class HomeComponent implements OnInit{
 
   onClickDruid() {
     let self = this;
-    this.http.post("http://localhost:8000/getMsgCnt", null, {responseType: 'json'}).subscribe(data => {
-      self.response = "Total messages count in Druid database:\n\n" + JSON.stringify(data, null, 2);
+    let pureQuery = this.query.replace(/\s/g, "");
+    this.druidLibrary.customDruidQuery(pureQuery).subscribe((response) => {
+      self.response = JSON.stringify(response, null, 2);
     });
   }
 }

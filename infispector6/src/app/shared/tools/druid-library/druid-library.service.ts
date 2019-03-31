@@ -80,7 +80,7 @@ export class DruidLibraryService {
   }
 
   /**
-   * Get
+   * Get message between two nodes
    */
   getNodeInfo(nodeName, filter, srcDest) {
 
@@ -108,6 +108,18 @@ export class DruidLibraryService {
         }
 
         return nodeMessagesInfo;
+      })
+    );
+  }
+
+  customDruidQuery(query) {
+    let body = {
+      "query": query
+    };
+
+    return this.http.post(this.baseUrl + "/customDruidQuery", body, {responseType: 'json'}).pipe(
+      map((response: DruidResponse) => {
+        return JSON.parse(response.jsonResponseAsString);
       })
     );
   }

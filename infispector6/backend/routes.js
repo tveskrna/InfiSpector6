@@ -26,6 +26,10 @@ function configureRoutes() {
   app.post("/getMaximumMessageTime", (req, res) => {
     druidApi.getMaximumMessageTime(req, res);
   });
+
+  app.post("/customDruidQuery", (req, res) => {
+    druidApi.customDruidQuery(req, res);
+  });
 }
 
 module.exports = configureRoutes;

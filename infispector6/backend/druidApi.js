@@ -183,6 +183,25 @@ exports.getMaximumMessageTime = function (request, response) {
   });
 };
 
+/**
+ * Returns resut of custom body
+ *
+ * Request body: query
+ */
+exports.customDruidQuery = function (request, response) {
+
+  debug('customDruidQuery function in druidApi.js was called. ');
+
+  let druidQueryJson = request.body.query;
+  druidQueryJson = JSON.parse(druidQueryJson);
+  druidQueryJson = finishQuery(druidQueryJson);
+
+  myDruidRequester(druidQueryJson).then(function (result) {
+    debug("Result of customDruidQuery: " + JSON.stringify(result));
+    response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(result)});
+  });
+};
+
 /*
 * Auxiliary functions
 */
