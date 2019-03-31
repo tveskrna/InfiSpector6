@@ -1,0 +1,15 @@
+<div id="message-list">
+  <h2>Message List</h2>
+  <div id="message-info">
+    <pre>
+      {{messageInfo}}
+    </pre>
+  </div>
+  <div id="message-btns">
+    <fieldset>
+      <button (click)="prevNodeMessageInfo()"><i class="fa fa-chevron-left"></i></button>
+      <label id="pages"> {{page}} </label>
+      <button (click)="nextNodeMessageInfo()"><i class="fa fa-chevron-right"></i></button>
+    </fieldset>
+  </div>
+</div>

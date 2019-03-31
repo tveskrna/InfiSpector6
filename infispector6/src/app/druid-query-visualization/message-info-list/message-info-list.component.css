@@ -1,0 +1,45 @@
+pre{
+  white-space: pre-wrap;
+  height: 235px;
+  width: 790px;
+  overflow: auto;
+  overflow-y: none;
+  margin-left: 5px;
+
+}
+
+#message-list{
+  width: 800px;
+  margin: 0 50px;
+}
+
+#message-info{
+  border: 1px solid darkgray;
+  background-color: #eeeeee;
+  margin-top: 30px;
+}
+
+#message-btns{
+  float: right;
+  margin-top: 20px;
+}
+
+#pages {
+  border: 1px solid darkgray;
+  background-color: #eeeeee;
+}
+
+fieldset {
+  padding: 0.5em;
+  border: none;
+}
+
+label, button {
+  font-size: inherit;
+  padding: 0.2em;
+  margin: 0.1em 0.2em;
+  /* the following ensures they're all using the same box-model for rendering */
+  -moz-box-sizing: content-box; /* or `border-box` */
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
