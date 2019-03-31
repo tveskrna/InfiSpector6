@@ -13,6 +13,9 @@
 .nav-btn {
   text-align: center;
   display: inline-block;
+  background-color: black;
+  border: none;
+  outline:none;
   min-width: 120px;
   height: 80px;
   line-height:80px;
