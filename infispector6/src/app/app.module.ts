@@ -11,7 +11,6 @@ import {DruidQueryVisualizationModule} from './druid-query-visualization/druid-q
 import {NavigationModule} from './shared/layouts/navigation/navigation.module';
 import {HomeModule} from './home/home.module';
 import {APP_ENVIRONMENT} from './environment';
-import {DruidLibraryModule} from './shared/tools/druid-library/druid-library.module';
 import {DruidLibraryService} from './shared/tools/druid-library/druid-library.service';
 
 @NgModule({

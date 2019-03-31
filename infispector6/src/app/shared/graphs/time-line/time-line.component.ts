@@ -4,7 +4,12 @@ import * as d3 from "d3";
 
 @Component({
   selector: '<time-line></time-line>',
-  template: '<div id="timeLineDiv"></div>'
+  template: `
+    <div id="time-line-container">
+      <h2>Time line</h2>
+      <div id="time-line-div"></div>
+    </div>`,
+  styles: ['#time-line-container { width: 900px; float: left} h2{margin-left: 70px}']
 })
 
 export class TimeLineComponent implements OnInit{
@@ -91,7 +96,7 @@ export class TimeLineComponent implements OnInit{
       })
       .orient("left");
 
-    let chart = d3.select("#timeLineDiv").append("svg")
+    let chart = d3.select("#time-line-div").append("svg")
       .attr("id", "timeLine")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
