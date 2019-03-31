@@ -39,7 +39,7 @@ exports.getNodes = function (request, response) {
       nodeField[i] = nodeField[i].replace('"dest":"', "").replace('\"', "");
     }
     debug("Result of getNodes function (druidApi): " + nodeField);
-    response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(nodeField)});
+    response.status(200).send({error: 0, jsonResponseAsString: nodeField.toString()});
   });
 
 };
@@ -56,23 +56,17 @@ exports.getNodes = function (request, response) {
 exports.getMessagesCount = function (request, response) {
   debug('getMessagesCount function from druidApi.js was called.');
   let srcNode = request.body.srcNode;
-  // srcNode = JSON.parse(srcNode);
-
   let destNode = request.body.destNode;
-  // destNode = JSON.parse(destNode);
-
   let searchMessageText = request.body.searchMessageText;
   let groupSrc = request.body.groupSrc;
   let groupDest = request.body.groupDest;
 
   if (srcNode === "null") {
-    groupSrc = "null"; //JSON.stringify("null");
-    // srcNode = JSON.parse(srcNode);
+    groupSrc = "null";
   }
 
   if (destNode === "null") {
-    groupDest = "null"; //JSON.stringify("null");
-    // destNode = JSON.parse(destNode);
+    groupDest = "null";
   }
 
   let druidQueryJson = createGeneralTopNDruidQuery("src", "length");
@@ -92,13 +86,14 @@ exports.getMessagesCount = function (request, response) {
       // TODO -- look here at proper handling
       messagesCount = 0;
     } else {
-      messagesCount = messagesCount[0].replace('"length":', "");
+      messagesCount = parseInt(messagesCount[0].replace('"length":', ""));
       if (searchMessageText === "CacheTopologyControlCommand") {
-        console.log("in getMessagesCountIntern extracted messagesCount from: " + res + " = " + messagesCount);
+        debug("in getMessagesCountIntern extracted messagesCount from: " + res + " = " + messagesCount);
       }
     }
-    debug("Result of getMessagesCount function (druidApi): " + JSON.stringify(result));
-    let jsonResponseAsString = { result: messagesCount, searchMessageText: searchMessageText};
+    let queryResult = [srcNode, destNode, messagesCount];
+    let jsonResponseAsString = { result: queryResult, searchMessageText: searchMessageText};
+    debug("Result of getMessagesCount function (druidApi): " + JSON.stringify(jsonResponseAsString));
     response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(jsonResponseAsString)});
   });
 };
