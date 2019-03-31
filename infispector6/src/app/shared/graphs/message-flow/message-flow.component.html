@@ -1,12 +1,14 @@
+<loading-bar></loading-bar>
+
 <div id="message-flow-btns">
   <fieldset>
     <label>Number of nodes in a group: </label>
     <input id="nodesInGroup" type="text" [(ngModel)]="nodesInGroup"/>
 
-    <label *ngIf="!hidden">Additional filters: </label>
-    <input id="inputFilter" *ngIf="!hidden" type="text" placeholder="new filters" [(ngModel)]="inputFilters"/>
+    <label *ngIf="!firstDraw">Additional filters: </label>
+    <input id="inputFilter" *ngIf="!firstDraw" type="text" placeholder="new filters" [(ngModel)]="inputFilters"/>
 
-    <button class="drawButton" (click)="drawGraph(false)" >Draw</button>
+    <button class="drawButton" (click)="drawGraph()" >Draw</button>
   </fieldset>
 </div>
 

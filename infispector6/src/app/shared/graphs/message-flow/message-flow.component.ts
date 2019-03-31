@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {DruidLibraryService} from '../../tools/druid-library/druid-library.service';
 
 import * as messageFlowChart from './messageFlowChart/messageFlowChart';
+import {LoadingBarComponent} from '../../layouts/loading-bar/loading-bar.component';
 
 @Component({
   selector: 'message-flow',
@@ -11,15 +12,18 @@ import * as messageFlowChart from './messageFlowChart/messageFlowChart';
 
 export class MessageFlowComponent {
 
+  @ViewChild(LoadingBarComponent)
+  private loadingBar:LoadingBarComponent;
+
   private groupLegend: string;
-
   private inputFilters: string = "";
-  private nodesInGroup: number = 1;
 
-  private hidden: boolean = true;
+  private nodesInGroup: number = 1;
+  private cnt: number = 1;
+
+  private firstDraw: boolean = true;
   private legendHidden: boolean = true;
   private loadingBarHidden: boolean = true;
-  private cnt: number = 0;
 
   constructor(private druidLibrary: DruidLibraryService) {
   }
@@ -28,9 +32,13 @@ export class MessageFlowComponent {
     let filters = "";
     let filtersArray: string[];
 
-    if (!this.hidden) {
+    if (!this.firstDraw) {
       filters = this.inputFilters;
       filters = filters.replace(" ", "");
+      if (!this.isNonEmpty(filters)) {
+        alert("No additional filters");
+        return;
+      }
     }
     else {
       messageFlowChart.deleteGraphs();
@@ -56,7 +64,8 @@ export class MessageFlowComponent {
       }
     }
     if (filtersArray.length > 0) {
-      this.loadingBarHidden = false;
+      debugger;
+      this.loadingBar.show();
       this.flowChart(filtersArray);
     }
   };
@@ -70,12 +79,18 @@ export class MessageFlowComponent {
       for (let j = 0; j < filters.length; j++) {
         searchMessageText = filters[j];
         self.getMatrix(nodes, searchMessageText, filters.length, function (matrix, filter) {
+          debugger;
+          let last = self.cnt === filters.length;
           self.cnt++;
-          messageFlowChart.messageFlowChart(nodes, matrix, filter, self.cnt === filters.length);
+          messageFlowChart.messageFlowChart(nodes, matrix, filter, last);
+          if (last) {
+            self.loadingBar.hide();
+            self.cnt = 0;
+          }
         });
       }
     });
-    this.hidden = false;
+    this.firstDraw = false;
     return 0;
   };
 
@@ -84,7 +99,7 @@ export class MessageFlowComponent {
     let groupNames = [];
 
     let requestsRemaining = Math.pow(nodes.length, 2);
-    let onePercent = (requestsRemaining * filterCount) * 0.01;
+    let oneUnit = 100/(requestsRemaining * filterCount);
 
     nodes.push(nodes.splice(nodes.indexOf("\"null\""), 1)[0]);
     let numberOfNodesInGroup = this.nodesInGroup;
@@ -114,18 +129,9 @@ export class MessageFlowComponent {
         this.druidLibrary.getMessagesCount(nodes[i1], nodes[i2], filter, srcGroup, destGroup).subscribe((response) => {
 
           matrix.push(response.result);
-          //TODO loading bar
           --requestsRemaining;
-          // ++requestsRemainingToPercent;
-          // if (requestsRemainingToPercent >= onePercent) {
-          //   requestsRemainingToPercent = 0;
-          //   if (onePercent < 1) {
-          //     frame(1 / onePercent);
-          //   }
-          //   else {
-          //     frame(1);
-          //   }
-          // }
+          this.loadingBar.increase(oneUnit);
+
           if (requestsRemaining <= 0) {
             if (numberOfNodesInGroup > 1) {
               let tmp;
@@ -149,4 +155,8 @@ export class MessageFlowComponent {
       }
     }
   };
+
+  isNonEmpty(str) {
+    return str && str.length > 0;
+  }
 }

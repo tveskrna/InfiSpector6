@@ -16,7 +16,6 @@ import {MessageInfoListComponent} from './message-info-list/message-info-list.co
     BrowserModule,
     TimeLineModule,
     MessageFlowModule,
-    LoadingBarModule
   ],
   exports: [
     DruidQueryVisualizationComponent
