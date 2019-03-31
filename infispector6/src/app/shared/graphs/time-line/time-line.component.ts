@@ -153,6 +153,7 @@ export class TimeLineComponent implements OnInit{
         if (thisBar.attr("selected") === "false") {
           if (numberOfSelected === 2) {
             // this.displayGrowl("Unable to select more than 2 bars"); TODO make work growl again
+            alert("Unable to select more than 2 bars");
           }
           else {
             thisBar.attr("selected", true).attr("fill", "green");
@@ -302,6 +303,7 @@ export class TimeLineComponent implements OnInit{
       nextUnits = currentUnits;
       if (((Math.abs(selectedValues[0] - selectedValues[1]) + this.valueOfOneBar) * this.valueOfOneBar) < this.allUnits["milliseconds"].value) {
         // displayGrowl("Unable to go any further!");
+        alert("Unable to go any further!");
         this.back.pop();
         return "unable";
       }
@@ -331,6 +333,7 @@ export class TimeLineComponent implements OnInit{
     let tmp = this.back.pop();
     if (tmp === undefined) {
       // displayGrowl("Unable to go any higher!");
+      alert("Unable to go any higher!")
       return;
     }
     tmp = tmp.split(",");

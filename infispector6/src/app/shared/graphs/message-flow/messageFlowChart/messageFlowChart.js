@@ -301,7 +301,7 @@ function clickedNode(nodeNameFilter, srcDest) {
   })
 }
 
-function messageFlowChart(nodes, matrix, messageType, last) {
+function messageFlowChart(nodes, matrix, messageType) {
   //deleteGraphs();
   let longest = nodes.sort(function (a, b) { return b.length - a.length; })[0].length;
   let longestCnt = 0;
@@ -330,13 +330,6 @@ function messageFlowChart(nodes, matrix, messageType, last) {
     {data:partData(matrix,2), id:messageType, header:["From","To", ""]}
   ];
   draw(data, svg, longest, longestCnt * 10 + 4);
-  if (last) {
-    //TODO loading bar
-    //angular.element(document.getElementById('ctrl')).scope().loadingBarHidden = true;
-    // widthBar = 0;
-    // frame(0);
-    // cnt = 0;
-  }
 
 }
 
@@ -345,10 +338,6 @@ function deleteGraphs() {
   for (let numberOfElements = elements.length; numberOfElements > 0; numberOfElements--) {
     elements[0].remove();
   }
-}
-
-function testF() {
-  test = "Hello";
 }
 
 module.exports = {

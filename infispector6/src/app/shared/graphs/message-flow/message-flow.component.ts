@@ -60,11 +60,11 @@ export class MessageFlowComponent {
       if (filtersUsed.indexOf(filtersArray[j]) > -1) {
 
         //TODO displayGrowl(filtersArray[j] + " filter already used");
+        alert(filtersArray[j] + " filter already used");
         filtersArray.splice(j, 1);
       }
     }
     if (filtersArray.length > 0) {
-      debugger;
       this.loadingBar.show();
       this.flowChart(filtersArray);
     }
@@ -79,11 +79,10 @@ export class MessageFlowComponent {
       for (let j = 0; j < filters.length; j++) {
         searchMessageText = filters[j];
         self.getMatrix(nodes, searchMessageText, filters.length, function (matrix, filter) {
-          debugger;
-          let last = self.cnt === filters.length;
           self.cnt++;
-          messageFlowChart.messageFlowChart(nodes, matrix, filter, last);
-          if (last) {
+          messageFlowChart.messageFlowChart(nodes, matrix, filter);
+
+          if (self.cnt === filters.length) {
             self.loadingBar.hide();
             self.cnt = 0;
           }
