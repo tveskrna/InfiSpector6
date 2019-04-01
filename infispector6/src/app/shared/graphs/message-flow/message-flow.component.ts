@@ -23,10 +23,8 @@ export class MessageFlowComponent {
 
   private firstDraw: boolean = true;
   private legendHidden: boolean = true;
-  private loadingBarHidden: boolean = true;
 
-  constructor(private druidLibrary: DruidLibraryService) {
-  }
+  constructor(private druidLibrary: DruidLibraryService) {}
 
   drawGraph() {
     let filters = "";

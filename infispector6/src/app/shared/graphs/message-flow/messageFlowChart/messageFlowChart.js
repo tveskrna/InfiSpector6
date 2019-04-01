@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 
+require("d3");
 
 /* global d3 */
 
 const b=30, bb=150, height=600, buffMargin=1, minHeight=14;
 const c1=[-130, 40], c2=[-50, 100], c3=[-10, 120]; //Column positions of labels.
 const colors =["#3366CC", "#DC3912",  "#FF9900","#109618", "#990099", "#0099C6"];
-let test = "";
 
 function partData(data,p){
   let sData={};
