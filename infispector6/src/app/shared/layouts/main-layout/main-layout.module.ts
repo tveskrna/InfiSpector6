@@ -18,6 +18,5 @@ import {RouterModule} from '@angular/router';
     MainLayoutComponent
   ],
   providers: [],
-  bootstrap: [MainLayoutComponent]
 })
 export class MainLayoutModule { }

@@ -14,6 +14,5 @@ import { HomeComponent } from './home.component';
     HomeComponent
   ],
   providers: [],
-  bootstrap: [HomeComponent]
 })
 export class HomeModule { }

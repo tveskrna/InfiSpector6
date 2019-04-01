@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {routing} from './app.routing';
 
-
 import {MainLayoutModule} from './shared/layouts/main-layout/main-layout.module';
 import {DruidQueryVisualizationModule} from './druid-query-visualization/druid-query-visualization.module';
 import {NavigationModule} from './shared/layouts/navigation/navigation.module';

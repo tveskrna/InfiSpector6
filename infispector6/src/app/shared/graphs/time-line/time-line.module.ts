@@ -14,6 +14,5 @@ import {TimeLineComponent} from './time-line.component';
     TimeLineComponent
   ],
   providers: [],
-  // bootstrap: [TimeLineComponent]
 })
 export class TimeLineModule { }

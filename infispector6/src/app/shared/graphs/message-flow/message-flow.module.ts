@@ -18,6 +18,5 @@ import {LoadingBarModule} from '../../layouts/loading-bar/loading-bar.module';
     MessageFlowComponent
   ],
   providers: [],
-  // bootstrap: [MessageFlowComponent]
 })
 export class MessageFlowModule { }

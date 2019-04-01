@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {DruidLibraryService} from '../../tools/druid-library/druid-library.service';
-import * as d3 from "d3";
 import * as timeLine from './timeLine/timeLine';
 
 @Component({

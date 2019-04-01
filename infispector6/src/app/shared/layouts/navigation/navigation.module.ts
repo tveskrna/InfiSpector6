@@ -16,6 +16,5 @@ import {RouterModule} from '@angular/router';
     NavigationComponent
   ],
   providers: [],
-  bootstrap: [NavigationComponent]
 })
 export class NavigationModule { }

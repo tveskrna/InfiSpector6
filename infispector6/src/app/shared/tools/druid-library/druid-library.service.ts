@@ -17,12 +17,11 @@ export class DruidLibraryService {
    * Get time of first entry in milliseconds
    */
   getFirstMessageTime() {
-    let self = this;
     return this.http.post(this.baseUrl + "/getMinimumMessageTime", null, {responseType: 'json'}).pipe(
       map((response:DruidResponse) => {
         let jsonResponse = JSON.parse(response.jsonResponseAsString);
         //TODO is here some way how to fix timestamp
-        //TODO timestamp send still same time
+        //timestamp send still same time
         return jsonResponse[0].timeMillis;
       })
     );
@@ -36,9 +35,8 @@ export class DruidLibraryService {
       map((response:DruidResponse) => {
         let jsonResponse = JSON.parse(response.jsonResponseAsString);
         //TODO is here some way how to fix timestamp
-        //TODO timestamp send still same time
+        //timestamp send still same time
         return jsonResponse[0].timeMillis;
-        // return response;
       })
     );
   };
