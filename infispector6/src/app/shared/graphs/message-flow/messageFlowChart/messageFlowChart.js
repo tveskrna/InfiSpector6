@@ -296,7 +296,6 @@ function deSelectSegment(data, m, s){
 function clickedNode(nodeNameFilter, srcDest) {
   let args = nodeNameFilter.split(",");
   window['angularComponentRef'].zone.run(() => {
-    console.log("tu");
     window['angularComponentRef'].component.getNodeInfo(args[0], args[1], srcDest);
   })
 }

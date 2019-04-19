@@ -78,7 +78,7 @@ export class DruidLibraryService {
   }
 
   /**
-   * Get message between two nodes
+   * Get messages between two nodes
    */
   getNodeInfo(nodeName, filter, srcDest) {
 

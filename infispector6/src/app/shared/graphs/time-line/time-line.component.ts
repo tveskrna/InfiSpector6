@@ -26,9 +26,7 @@ export class TimeLineComponent implements OnInit{
 
     this.druidLibrary.getFirstMessageTime().subscribe((firstMessageTime) => {
       this.druidLibrary.getLastMessageTime().subscribe((lastMessageTime) => {
-        let start = new Date(firstMessageTime);
-        let end = new Date(lastMessageTime);
-        let difference = end.getTime() - start.getTime();
+        let difference = lastMessageTime - firstMessageTime;
         if (difference < 1000) {
           timeLine.timeLine("milliseconds");
           return;

@@ -325,8 +325,6 @@ function getTime(currentUnits) {
         break;
     }
   }
-  console.log(dateFrom);
-  console.log(dateTo);
 }
 
 /**
