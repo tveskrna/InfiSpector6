@@ -1,12 +1,16 @@
-import { TestBed, async } from '@angular/core/testing';
+import {TestBed, async, inject} from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {APP_ENVIRONMENT} from './environment';
 
-describe('DruidQueryVisualizationComponent', () => {
+describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
       ],
+      imports: [ RouterTestingModule ],
+      providers: [APP_ENVIRONMENT]
     }).compileComponents();
   }));
 
@@ -16,23 +20,8 @@ describe('DruidQueryVisualizationComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'infispector6'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('infispector6');
-  });
-
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to infispector6!');
-  });
-
-  it('should render logo', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('img').getAttribute('src')).toContain('/assets/img/logo.png');
+  it('should have server url as "http://localhost:8000"', () => {
+    let environment = TestBed.get(APP_ENVIRONMENT);
+    expect(environment.getServerUrl()).toEqual("http://localhost:8000");
   });
 });

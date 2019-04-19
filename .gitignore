@@ -4,7 +4,7 @@
 *.zip
 *.log
 *.swp
-infispector/
+oldInfispector/
 zookeeper-3.4.11/
 apache-druid-0.13.0-incubating
 kafka_2.11-2.1.0
