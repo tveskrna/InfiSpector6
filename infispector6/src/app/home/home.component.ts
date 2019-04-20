@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {DruidLibraryService} from '../shared/tools/druid-library/druid-library.service';
+import {debug} from 'util';
 
 @Component({
   selector: 'home',
