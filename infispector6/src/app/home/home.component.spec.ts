@@ -3,28 +3,39 @@ import { HomeComponent } from './home.component';
 import {APP_ENVIRONMENT} from '../environment';
 import {DruidLibraryService} from '../shared/tools/druid-library/druid-library.service';
 import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import {MessageInfoListComponent} from '../druid-query-visualization/message-info-list/message-info-list.component';
 
 describe('HomeComponent', () => {
+
+  let component;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         HomeComponent
       ],
-      imports: [HttpClientModule],
-      providers: [DruidLibraryService, APP_ENVIRONMENT]
+      imports: [
+        HttpClientModule,
+        FormsModule
+      ],
+      providers: [
+        DruidLibraryService,
+        APP_ENVIRONMENT
+      ]
     }).compileComponents();
   }));
 
-  it('Should create Home component', () => {
+  beforeEach(() => {
     const fixture = TestBed.createComponent(HomeComponent);
-    const component = fixture.debugElement.componentInstance;
+    component = fixture.debugElement.componentInstance;
+  });
+
+  it('Should create Home component', () => {
     expect(component).toBeTruthy();
   });
 
   it(`Should fill response area with text`, async () => {
-    const fixture = TestBed.createComponent(HomeComponent);
-    const component = fixture.debugElement.componentInstance;
-
     component.ngOnInit();
     expect(component.response).not.toBeUndefined();
   });

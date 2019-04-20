@@ -17,9 +17,12 @@ describe('DruidQueryVisualizationComponent', () => {
       imports: [
         TimeLineModule,
         MessageFlowModule,
-        HttpClientModule,
+        HttpClientModule
       ],
-      providers: [DruidLibraryService, APP_ENVIRONMENT]
+      providers: [
+        DruidLibraryService,
+        APP_ENVIRONMENT,
+      ]
     }).compileComponents();
   }));
 

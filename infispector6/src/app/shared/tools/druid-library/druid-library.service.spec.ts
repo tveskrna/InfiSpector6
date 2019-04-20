@@ -48,10 +48,9 @@ describe('DruidLibraryService', () => {
         let destNode = nodesResponse[1];
         let group = "group0";
         druidService.getMessagesCount(srcNode, destNode, null, group, group).subscribe((messageResponse) => {
-          let sameSrcGroup = messageResponse.result[0] == group;
-          let sameDstGroup = messageResponse.result[1] == group;
-          let isNumber = !isNaN(messageResponse.result[2]);
-          expect(sameSrcGroup && sameDstGroup && isNumber).toBe(true);
+          expect(messageResponse.result[0]).toEqual(group);
+          expect(messageResponse.result[1]).toEqual(group);
+          expect(isNaN(messageResponse.result[2])).toBe(false);
           done();
         });
       } else {

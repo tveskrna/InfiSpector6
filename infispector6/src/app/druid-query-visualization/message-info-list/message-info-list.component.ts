@@ -11,7 +11,7 @@ export class MessageInfoListComponent {
 
   private messageInfo:string = "";
   private nodeMessagesInfo:string[] = [];
-  private index:number;
+  private index:number = 0;
   private page:string = "-/-";
 
   constructor(private druidLibrary:DruidLibraryService, private zone:NgZone) {
@@ -33,7 +33,7 @@ export class MessageInfoListComponent {
       self.druidLibrary.getNodeInfo(nodeName, filter, srcDest).subscribe((nodeMessagesInfo) => {
         self.nodeMessagesInfo = nodeMessagesInfo;
         self.messageInfo = nodeMessagesInfo[self.index];
-        this.setPage();
+        self.setPage();
       })
     });
   }
@@ -56,6 +56,18 @@ export class MessageInfoListComponent {
   setPage() {
     let currentPage = this.index + 1;
     this.page = currentPage + "/" + this.nodeMessagesInfo.length;
+  }
+
+  getPage() {
+    return this.page;
+  }
+
+  setMessagesInfo(messages) {
+    this.nodeMessagesInfo = messages;
+  }
+
+  getMessagesInfo(messages) {
+    return this.nodeMessagesInfo;
   }
 }
 

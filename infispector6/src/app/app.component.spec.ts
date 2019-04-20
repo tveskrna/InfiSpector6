@@ -38,12 +38,10 @@ describe('AppComponent', () => {
   it("Should get server status", (done) => {
     app.getServerStatus().subscribe((response) => {
 
-      let host = response.host == "http://localhost:8000";
-      let cors = response.cors;
-      let jsonParser = response.jsonParser;
-      let urlEncoded = response.urlEncoded;
-
-      expect(host && cors && jsonParser && urlEncoded).toBe(true);
+      expect(response.host).toEqual("http://localhost:8000");
+      expect(response.cors).toBe(true);
+      expect(response.jsonParser).toBe(true);
+      expect(response.urlEncoded).toBe(true);
       done();
     })
   });
