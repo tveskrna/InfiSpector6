@@ -20,7 +20,21 @@ app.listen(port, () => {
   console.log('Server started on port ' + port +'\n');
 });
 
-//set up routes
+/**
+ * Retrun server status
+ */
+
+app.get('/status', function (request, response) {
+  let status = {
+    host: "http://localhost:8000",
+    cors: true,
+    jsonParser: true,
+    urlEncoded: true
+  };
+  response.status(200).send(status);
+});
+
+//set up rest of routes
 require('./routes')();
 
 
