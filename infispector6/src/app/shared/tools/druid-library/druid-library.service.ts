@@ -17,7 +17,7 @@ export class DruidLibraryService {
    * Get time of first entry in milliseconds
    */
   getFirstMessageTime() {
-    return this.http.post(this.baseUrl + "/getMinimumMessageTime", null, {responseType: 'json'}).pipe(
+    return this.http.get(this.baseUrl + "/getMinimumMessageTime", {responseType: 'json'}).pipe(
       map((response:DruidResponse) => {
         let jsonResponse = JSON.parse(response.jsonResponseAsString);
         //TODO is here some way how to fix timestamp
@@ -31,7 +31,7 @@ export class DruidLibraryService {
    * Get time of last entry in milliseconds
    */
   getLastMessageTime() {
-    return this.http.post(this.baseUrl + "/getMaximumMessageTime", null, {responseType: 'json'}).pipe(
+    return this.http.get(this.baseUrl + "/getMaximumMessageTime", {responseType: 'json'}).pipe(
       map((response:DruidResponse) => {
         let jsonResponse = JSON.parse(response.jsonResponseAsString);
         //TODO is here some way how to fix timestamp
@@ -45,7 +45,7 @@ export class DruidLibraryService {
    * Get array of infinispan nodes
    */
   getNodes() {
-    return this.http.post(this.baseUrl + "/getNodes", null, {responseType: 'json'}).pipe(
+    return this.http.get(this.baseUrl + "/getNodes", {responseType: 'json'}).pipe(
       map((response:DruidResponse) => {
         return response.jsonResponseAsString.split(",");
       })
@@ -98,8 +98,8 @@ export class DruidLibraryService {
           let message = jsonResponse[i].message;
 
           message = message.replace(reBefore, " $1");
-          message = message.replace(reAfter, "$1 ")
-          ;
+          message = message.replace(reAfter, "$1 ");
+          //TODO what this Count really mean?
           nodeMessagesInfo[i] = "\nNode name: " + nodeName +                      //node name
                                 "\n\nCount: " + jsonResponse[i].length +          //count
                                 "\n\nMessage: " + message;                        //message

@@ -3,7 +3,15 @@ var app = require('./server');
 const druidApi = require('./druidApi');
 
 function configureRoutes() {
-  app.post('/getNodes', (req, res) => {
+  app.get("/getMinimumMessageTime", (req, res) => {
+    druidApi.getMinimumMessageTime(req, res);
+  });
+
+  app.get("/getMaximumMessageTime", (req, res) => {
+    druidApi.getMaximumMessageTime(req, res);
+  });
+
+  app.get('/getNodes', (req, res) => {
     druidApi.getNodes(req, res);
   });
 
@@ -17,14 +25,6 @@ function configureRoutes() {
 
   app.post("/getMessagesInfo", (req, res) => {
     druidApi.getMessagesInfo(req, res);
-  });
-
-  app.post("/getMinimumMessageTime", (req, res) => {
-    druidApi.getMinimumMessageTime(req, res);
-  });
-
-  app.post("/getMaximumMessageTime", (req, res) => {
-    druidApi.getMaximumMessageTime(req, res);
   });
 
   app.post("/customDruidQuery", (req, res) => {

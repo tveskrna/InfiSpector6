@@ -17,6 +17,46 @@ const druidRequester = druidRequesterFactory({
 */
 
 /**
+ * Returns the time of the first message in monitored communication
+ *
+ * Request body: null
+ */
+exports.getMinimumMessageTime = function (request, response) {
+
+  debug('getMinimumMessageTime function in druidApi.js was called. ');
+
+  let druidQueryJson = createTimeseriesDruidQuery(null, false);
+  setAggregationsToDruidQueryBase(druidQueryJson, "doubleFirst", "timestamp", "timeMillis");
+  setIntervalsToDruidQueryBase(druidQueryJson); //"2009-10-01T00:00/2020-01-01T00"
+  druidQueryJson = finishQuery(druidQueryJson);
+
+  myDruidRequester(druidQueryJson).then(function (result) {
+    debug("Result of getMinimumMessageTime: " + JSON.stringify(result));
+    response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(result)});
+  });
+};
+
+/**
+ * Returns the time of the last message in monitored communication
+ *
+ * Request body: null
+ */
+exports.getMaximumMessageTime = function (request, response) {
+
+  debug('getMaximumMessageTime function in druidApi.js was called. ');
+
+  let druidQueryJson = createTimeseriesDruidQuery(null, true);
+  setAggregationsToDruidQueryBase(druidQueryJson, "doubleLast", "timestamp", "timeMillis");
+  setIntervalsToDruidQueryBase(druidQueryJson); //"2009-10-01T00:00/2020-01-01T00"
+  druidQueryJson = finishQuery(druidQueryJson);
+
+  myDruidRequester(druidQueryJson).then(function (result) {
+    debug("Result of getMaximumMessageTime: " + JSON.stringify(result));
+    response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(result)});
+  });
+};
+
+/**
  * Function asks druid instance for the list of communication nodes
  * and internally parses the result in order to return clear list of nodes.
  *
@@ -139,46 +179,6 @@ exports.getMessagesInfo = function (request, response) {
 
   myDruidRequester(druidQueryJson).then(function (result) {
     debug("Result of getMessagesInfo (druidApi): " + JSON.stringify(result));
-    response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(result)});
-  });
-};
-
-/**
- * Returns the time of the first message in monitored communication
- *
- * Request body: null
- */
-exports.getMinimumMessageTime = function (request, response) {
-
-  debug('getMinimumMessageTime function in druidApi.js was called. ');
-
-  let druidQueryJson = createTimeseriesDruidQuery(null, false);
-  setAggregationsToDruidQueryBase(druidQueryJson, "doubleFirst", "timestamp", "timeMillis");
-  setIntervalsToDruidQueryBase(druidQueryJson); //"2009-10-01T00:00/2020-01-01T00"
-  druidQueryJson = finishQuery(druidQueryJson);
-
-  myDruidRequester(druidQueryJson).then(function (result) {
-    debug("Result of getMinimumMessageTime: " + JSON.stringify(result));
-    response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(result)});
-  });
-};
-
-/**
- * Returns the time of the last message in monitored communication
- *
- * Request body: null
- */
-exports.getMaximumMessageTime = function (request, response) {
-
-  debug('getMaximumMessageTime function in druidApi.js was called. ');
-
-  let druidQueryJson = createTimeseriesDruidQuery(null, true);
-  setAggregationsToDruidQueryBase(druidQueryJson, "doubleLast", "timestamp", "timeMillis");
-  setIntervalsToDruidQueryBase(druidQueryJson); //"2009-10-01T00:00/2020-01-01T00"
-  druidQueryJson = finishQuery(druidQueryJson);
-
-  myDruidRequester(druidQueryJson).then(function (result) {
-    debug("Result of getMaximumMessageTime: " + JSON.stringify(result));
     response.status(200).send({error: 0, jsonResponseAsString: JSON.stringify(result)});
   });
 };
