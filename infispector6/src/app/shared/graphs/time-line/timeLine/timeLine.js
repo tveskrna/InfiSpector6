@@ -112,8 +112,7 @@ function timeLine(units) {
       let thisBar = d3.select(this);
       if (thisBar.attr("selected") === "false") {
         if (numberOfSelected === 2) {
-          // displayGrowl("Unable to select more than 2 bars"); TODO make work growl again
-          alert("Unable to select more than 2 bars");
+          notifier("warning", "Unable to select more than 2 bars");
         }
         else {
           thisBar.attr("selected", true).attr("fill", "green");
@@ -264,8 +263,7 @@ function decideUnits(currentUnits, selectedValues) {   // will decide new units 
   if (currentUnits === "milliseconds") {
     nextUnits = currentUnits;
     if (((Math.abs(selectedValues[0] - selectedValues[1]) + valueOfOneBar) * valueOfOneBar) < allUnits["milliseconds"].value) {
-      // displayGrowl("Unable to go any further!");
-      alert("Unable to go any further!");
+      notifier("warning", "Unable to go any further!");
       back.pop();
       return "unable";
     }
@@ -294,8 +292,7 @@ function decideUnits(currentUnits, selectedValues) {   // will decide new units 
 function higher() {
   let tmp = back.pop();
   if (tmp === undefined) {
-    // displayGrowl("Unable to go any higher!");
-    alert("Unable to go any higher!")
+    notifier("warning", "Unable to go any higher!");
     return;
   }
   tmp = tmp.split(",");
@@ -335,6 +332,16 @@ function timeLineDestroy() {
   if (element !== null) {
     element.remove();
   }
+}
+
+/**
+ *
+ * Decorator for angular-nofifier
+ */
+function notifier(type, message) {
+  window['NotifierComponentRef'].zone.run(() => {
+    window['NotifierComponentRef'].component.showNotification(type, message);
+  })
 }
 
 module.exports = {

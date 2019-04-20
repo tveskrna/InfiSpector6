@@ -3,6 +3,7 @@ import {DruidLibraryService} from '../../tools/druid-library/druid-library.servi
 
 import * as messageFlowChart from './messageFlowChart/messageFlowChart';
 import {LoadingBarComponent} from '../../layouts/loading-bar/loading-bar.component';
+import {AngularNotifierComponent} from '../../layouts/angular-notifier/angular-notifier.component';
 
 @Component({
   selector: 'message-flow',
@@ -14,6 +15,9 @@ export class MessageFlowComponent {
 
   @ViewChild(LoadingBarComponent)
   private loadingBar:LoadingBarComponent;
+
+  @ViewChild(AngularNotifierComponent)
+  private notifier:AngularNotifierComponent;
 
   private groupLegend: string;
   private inputFilters: string = "";
@@ -34,7 +38,7 @@ export class MessageFlowComponent {
       filters = this.inputFilters;
       filters = filters.replace(" ", "");
       if (!this.isNonEmpty(filters)) {
-        alert("No additional filters");
+        this.notifier.showNotification("warning", "No additional filters");
         return;
       }
     }
@@ -57,8 +61,7 @@ export class MessageFlowComponent {
     for (let j = 0; j < filtersArray.length; j++) {
       if (filtersUsed.indexOf(filtersArray[j]) > -1) {
 
-        //TODO displayGrowl(filtersArray[j] + " filter already used");
-        alert(filtersArray[j] + " filter already used");
+        this.notifier.showNotification("warning", filtersArray[j] + " filter already used");
         filtersArray.splice(j, 1);
       }
     }

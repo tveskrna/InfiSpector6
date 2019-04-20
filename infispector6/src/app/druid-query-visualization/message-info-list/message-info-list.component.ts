@@ -20,7 +20,7 @@ export class MessageInfoListComponent {
      * Due to zone can be used in javascript file.
      * For example is this component used in messageFlowChart.js
      */
-    window['angularComponentRef'] = {
+    window['MessageInfoListComponentRef'] = {
       zone: this.zone,
       component: this
     };

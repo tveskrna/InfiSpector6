@@ -11,6 +11,7 @@ import {NavigationModule} from './shared/layouts/navigation/navigation.module';
 import {HomeModule} from './home/home.module';
 import {APP_ENVIRONMENT} from './environment';
 import {DruidLibraryService} from './shared/tools/druid-library/druid-library.service';
+import {AngularNotifierModule} from './shared/layouts/angular-notifier/angular-notifier.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,10 @@ import {DruidLibraryService} from './shared/tools/druid-library/druid-library.se
     DruidQueryVisualizationModule
   ],
   exports: [],
-  providers: [APP_ENVIRONMENT, DruidLibraryService],
+  providers: [
+    APP_ENVIRONMENT,
+    DruidLibraryService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
