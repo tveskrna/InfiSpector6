@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 @Component({
   selector: 'loading-bar',
   template:
-            `<div class="overlay" *ngIf="visible">
+            `<div id="loading-bar" class="overlay" *ngIf="visible">
               <div id="myProgress">
                 <div id="myBar" [style.width.%]="widthBar">{{widthBar}}%</div>
               </div>

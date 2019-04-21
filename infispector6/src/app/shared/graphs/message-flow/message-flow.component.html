@@ -9,7 +9,7 @@
     <label *ngIf="!firstDraw">Additional filters: </label>
     <input id="inputFilter" *ngIf="!firstDraw" type="text" placeholder="new filters" [(ngModel)]="inputFilters"/>
 
-    <button class="drawButton" (click)="drawGraph()" >Draw</button>
+    <button id="draw-button" (click)="drawGraph()" >Draw</button>
   </fieldset>
 </div>
 
