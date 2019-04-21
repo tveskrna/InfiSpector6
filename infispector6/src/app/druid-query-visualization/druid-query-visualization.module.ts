@@ -18,7 +18,6 @@ import {MessageInfoListComponent} from './message-info-list/message-info-list.co
   ],
   exports: [
     DruidQueryVisualizationComponent
-  ],
-  providers: [],
+  ]
 })
 export class DruidQueryVisualizationModule { }

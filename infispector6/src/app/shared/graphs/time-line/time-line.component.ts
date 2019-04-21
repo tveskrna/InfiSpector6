@@ -4,12 +4,8 @@ import * as timeLine from './timeLine/timeLine';
 
 @Component({
   selector: '<time-line></time-line>',
-  template: `
-    <div id="time-line-container">
-      <h2 id="time-line-h2">Time line</h2>
-      <div id="time-line-div"></div>
-    </div>`,
-  styles: ['#time-line-container { width: 900px; float: left} h2{margin-left: 70px}']
+  templateUrl: './time-line.component.html',
+  styleUrls: ['./time-line.component.css']
 })
 
 export class TimeLineComponent implements OnInit{

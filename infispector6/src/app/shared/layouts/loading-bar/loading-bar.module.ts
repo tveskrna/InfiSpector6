@@ -2,8 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {LoadingBarComponent} from './loading-bar.component';
 
-
-
 @NgModule({
   declarations: [
     LoadingBarComponent
@@ -13,7 +11,6 @@ import {LoadingBarComponent} from './loading-bar.component';
   ],
   exports: [
     LoadingBarComponent
-  ],
-  providers: []
+  ]
 })
 export class LoadingBarModule  { }

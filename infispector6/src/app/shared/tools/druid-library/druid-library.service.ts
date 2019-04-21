@@ -7,7 +7,7 @@ import {DruidResponse} from './DruidResponse';
 @Injectable()
 export class DruidLibraryService {
 
-  private baseUrl:string;
+  private readonly baseUrl:string;
 
   constructor(private http: HttpClient, private env: APP_ENVIRONMENT) {
     this.baseUrl = this.env.getServerUrl();

@@ -12,7 +12,7 @@ const druidRequester = druidRequesterFactory({
   host: druidHost
 });
 
-/*
+/**
 * Druid requests
 */
 

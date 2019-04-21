@@ -2,12 +2,7 @@ import {Component} from '@angular/core';
 
 @Component({
   selector: 'loading-bar',
-  template:
-            `<div id="loading-bar" class="overlay" *ngIf="visible">
-              <div id="myProgress">
-                <div id="myBar" [style.width.%]="widthBar">{{widthBar}}%</div>
-              </div>
-             </div>`,
+  templateUrl: './loading-bar.component.html',
   styleUrls: ['./loading-bar.component.css']
 })
 

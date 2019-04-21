@@ -16,7 +16,6 @@ import {RouterModule} from '@angular/router';
   ],
   exports: [
     MainLayoutComponent
-  ],
-  providers: [],
+  ]
 })
 export class MainLayoutModule { }

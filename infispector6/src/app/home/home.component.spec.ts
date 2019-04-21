@@ -4,7 +4,6 @@ import {APP_ENVIRONMENT} from '../environment';
 import {DruidLibraryService} from '../shared/tools/druid-library/druid-library.service';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
-import {MessageInfoListComponent} from '../druid-query-visualization/message-info-list/message-info-list.component';
 
 describe('HomeComponent', () => {
 

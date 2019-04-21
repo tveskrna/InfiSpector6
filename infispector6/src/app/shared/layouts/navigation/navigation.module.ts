@@ -14,7 +14,6 @@ import {RouterModule} from '@angular/router';
   ],
   exports: [
     NavigationComponent
-  ],
-  providers: [],
+  ]
 })
 export class NavigationModule { }

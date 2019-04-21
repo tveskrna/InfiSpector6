@@ -18,7 +18,6 @@ import {AngularNotifierModule} from '../../layouts/angular-notifier/angular-noti
   ],
   exports: [
     MessageFlowComponent
-  ],
-  providers: [],
+  ]
 })
 export class MessageFlowModule { }

@@ -1,6 +1,4 @@
 import {Component} from '@angular/core';
-import {DruidResponse} from './shared/tools/druid-library/DruidResponse';
-import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {APP_ENVIRONMENT} from './environment';
 
@@ -11,7 +9,7 @@ import {APP_ENVIRONMENT} from './environment';
 
 export class AppComponent{
 
-  private baseUrl:string;
+  private readonly baseUrl:string;
 
   constructor(private http: HttpClient, private env: APP_ENVIRONMENT) {
     this.baseUrl = this.env.getServerUrl();

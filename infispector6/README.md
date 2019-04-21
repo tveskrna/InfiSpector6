@@ -16,7 +16,15 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Before testing is needed to run backend and Druid database.
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io). 
+
+## Running e2e tests
+
+Run `ng e2e` to execute the e2e tests via [Protractor](https://github.com/angular/protractor).
 
 ## Development server with backend
 Run `npm start` to run UI with backend. Navigate to `http://localhost:4200/`.
+
+## Running backend
+Run `node backend/server.js` to run standalone backend.

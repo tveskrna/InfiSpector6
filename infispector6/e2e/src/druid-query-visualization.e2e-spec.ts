@@ -1,6 +1,5 @@
 import {browser, by, element, protractor} from 'protractor';
 
-
 describe('Druid Query Visualization e2e test', () => {
 
   beforeEach( () => {
